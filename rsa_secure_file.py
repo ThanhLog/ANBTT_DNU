@@ -1,100 +1,56 @@
+from Crypto.Cipher import DES3
+from Crypto.Random import get_random_bytes
+import hashlib
+import base64
 
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives.asymmetric import utils
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.backends import default_backend
+# Băm mật khẩu bằng SHA-256
+def hash_password_sha(password):
+    sha = hashlib.sha256()
+    sha.update(password.encode())
+    return sha.digest()
 
-# Tạo cặp khóa RSA
-def generate_keys():
-    private_key = rsa.generate_private_key(
-        public_exponent=65537, key_size=2048, backend=default_backend()
-    )
-    public_key = private_key.public_key()
-    return private_key, public_key
+# Sinh khóa hợp lệ cho Triple DES (24 bytes)
+def generate_3des_key():
+    while True:
+        key = get_random_bytes(24)
+        try:
+            DES3.adjust_key_parity(key)
+            return key
+        except ValueError:
+            continue
 
-# Lưu khóa vào file
-def save_keys(private_key, public_key):
-    with open("private_key.pem", "wb") as f:
-        f.write(private_key.private_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PrivateFormat.PKCS8,
-            encryption_algorithm=serialization.NoEncryption()
-        ))
-    with open("public_key.pem", "wb") as f:
-        f.write(public_key.public_bytes(
-            encoding=serialization.Encoding.PEM,
-            format=serialization.PublicFormat.SubjectPublicKeyInfo
-        ))
+# Mã hóa mật khẩu đã băm bằng 3DES
+def encrypt_hashed_password(hashed_password, key):
+    cipher = DES3.new(key, DES3.MODE_EAX)
+    nonce = cipher.nonce
+    ciphertext = cipher.encrypt(hashed_password)
+    return base64.b64encode(nonce + ciphertext).decode()
 
-# Mã hóa file bằng khóa công khai
-def encrypt_file(input_file, output_file, public_key):
-    with open(input_file, "rb") as f:
-        data = f.read()
-
-    encrypted = public_key.encrypt(
-        data,
-        padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
-    )
-
-    with open(output_file, "wb") as f:
-        f.write(encrypted)
-
-# Giải mã file bằng khóa riêng
-def decrypt_file(encrypted_file, output_file, private_key):
-    with open(encrypted_file, "rb") as f:
-        encrypted_data = f.read()
-
-    decrypted = private_key.decrypt(
-        encrypted_data,
-        padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None)
-    )
-
-    with open(output_file, "wb") as f:
-        f.write(decrypted)
-
-# Tạo chữ ký số từ file
-def sign_file(file_path, private_key):
-    with open(file_path, "rb") as f:
-        data = f.read()
-
-    signature = private_key.sign(
-        data,
-        padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
-        hashes.SHA256()
-    )
-    return signature
-
-# Xác minh chữ ký số
-def verify_signature(file_path, signature, public_key):
-    with open(file_path, "rb") as f:
-        data = f.read()
-
+# Xác minh mật khẩu khi đăng nhập
+def verify_password(input_password, encrypted_hash_b64, key):
+    raw = base64.b64decode(encrypted_hash_b64)
+    nonce = raw[:16]
+    ciphertext = raw[16:]
+    cipher = DES3.new(key, DES3.MODE_EAX, nonce=nonce)
+    hashed_input = hash_password_sha(input_password)
     try:
-        public_key.verify(
-            signature,
-            data,
-            padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH),
-            hashes.SHA256()
-        )
-        return True
+        decrypted_hash = cipher.decrypt(ciphertext)
+        return hashed_input == decrypted_hash
     except:
         return False
 
-# Ví dụ sử dụng
 if __name__ == "__main__":
-    # 1. Tạo khóa
-    private_key, public_key = generate_keys()
-    save_keys(private_key, public_key)
+    # Sinh khóa 3DES
+    key = generate_3des_key()
 
-    # 2. Mã hóa file
-    encrypt_file("message.txt", "message_encrypted.bin", public_key)
+    # # Người dùng đăng ký
+    # password = "MySecret123"
+    # hashed = hash_password_sha(password)
+    # encrypted = encrypt_hashed_password(hashed, key)
+    # print("🔐 Mật khẩu đã mã hóa:", encrypted)
 
-    # 3. Giải mã file
-    decrypt_file("message_encrypted.bin", "message_decrypted.txt", private_key)
-
-    # 4. Ký và xác minh
-    signature = sign_file("message.txt", private_key)
-    result = verify_signature("message.txt", signature, public_key)
-
-    print("✅ Xác thực người dùng:", "Thành công" if result else "Thất bại")
+    # # Người dùng đăng nhập
+    # input_pw = "MySecret123"
+    # result = verify_password(input_pw, encrypted, key)
+    # print("✅ Xác thực người dùng:", "Thành công" if result else "Thất bại")
+    

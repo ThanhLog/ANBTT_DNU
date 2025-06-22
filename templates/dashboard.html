@@ -2,48 +2,89 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Secure Authentication System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .container {
-      max-width: 800px;
-      margin-top: 50px;
-    }
-
-    .form-container {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <div>
-    <h2>Welcome, {{ user.username }}!</h2>
-    <div class="card mt-4">
-      <div class="card-header">
-        Account Information
-      </div>
-      <div class="card-body">
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Account Created:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-        <p><strong>Account Status:</strong>
-          {% if user.is_locked %}
-          <span class="badge bg-danger">Locked</span>
-          {% else %}
-          <span class="badge bg-success">Active</span>
-          {% endif %}
-        </p>
-        {% if user.is_admin %}
-        <p><strong>Role:</strong> <span class="badge bg-primary">Administrator</span></p>
-        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary mt-2">Go to Admin Panel</a>
-        {% endif %}
-      </div>
+
+<body class="bg-white text-black min-h-screen flex items-center justify-center">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-lg">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show text-lg" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
     </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <div class="bg-grey-900 p-8 rounded-xl shadow-lg max-w-lg w-full">
+    <h2 class="text-2xl font-bold text-center mb-6">Chào mừng, {{ user.username }}!</h2>
+
+    <div class="bg-grey-800 rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-3 border-b border-gray-600 pb-2">Thông tin tài khoản</h3>
+      <p class="mb-2"><strong>Tên đăng nhập:</strong> {{ user.username }}</p>
+      <p class="mb-2"><strong>Ngày tạo tài khoản:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+      <p class="mb-2"><strong>Trạng thái tài khoản:</strong>
+        {% if user.is_locked %}
+        <span class="inline-block px-2 py-1 text-sm font-semibold text-red-800 bg-red-200 rounded">Bị khóa</span>
+        {% else %}
+        <span class="inline-block px-2 py-1 text-sm font-semibold text-green-800 bg-green-200 rounded">Hoạt động</span>
+        {% endif %}
+      </p>
+
+      {% if user.is_admin %}
+      <p class="mb-2"><strong>Vai trò:</strong>
+        <span
+          class="inline-block px-2 py-1 text-sm font-semibold text-blue-800 bg-blue-200 rounded">Quản trị viên</span>
+      </p>
+      <a href="{{ url_for('admin_dashboard') }}"
+        class="mt-2 inline-block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
+        Vào trang quản trị
+      </a>
+      {% endif %}
+    </div>
+
     <div class="mt-4">
-      <a href="{{ url_for('change_password') }}" class="btn btn-warning">Change Password</a>
+      <a href="{{ url_for('change_password') }}"
+        class="w-full inline-block text-center bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-4 rounded transition">
+        Đổi mật khẩu
+      </a>
+    </div>
+
+    <div class="mt-8">
+      <h3 class="text-lg font-semibold mb-3 border-b border-gray-600 pb-2">Lịch sử đăng nhập (10 lần gần nhất)</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200 rounded">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 border-b">Thời gian</th>
+              <th class="px-4 py-2 border-b">Trạng thái</th>
+              <th class="px-4 py-2 border-b">Địa chỉ IP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for log in login_logs %}
+            <tr>
+              <td class="px-4 py-2 border-b">{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+              <td class="px-4 py-2 border-b">
+                {% if log.success %}
+                <span class="text-green-700 font-semibold">Thành công</span>
+                {% else %}
+                <span class="text-red-700 font-semibold">Thất bại</span>
+                {% endif %}
+              </td>
+              <td class="px-4 py-2 border-b">{{ log.ip_address }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </body>
+
 </html>

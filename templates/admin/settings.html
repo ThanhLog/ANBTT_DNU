@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Settings - Secure Authentication System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+</head>
+<body>
+  <div class="container mt-5" style="max-width:600px;">
+    <h2 class="mb-4 text-center">Cài đặt hệ thống</h2>
+    <form method="post" class="card p-4 shadow-sm">
+      <div class="mb-3">
+        <label for="max_fail_attempts" class="form-label">Số lần nhập sai tối đa trước khi khóa tài khoản</label>
+        <input type="number" min="1" class="form-control" id="max_fail_attempts" name="max_fail_attempts" value="{{ config.max_fail_attempts }}" required>
+        <div class="form-text">Nếu người dùng nhập sai mật khẩu quá số lần này, tài khoản sẽ bị khóa.</div>
+      </div>
+      <button type="submit" class="btn btn-primary me-2"><i class="fas fa-save"></i> Lưu cài đặt</button>
+      <button type="submit" name="regenerate_key" value="1" class="btn btn-danger" onclick="return confirm('Sinh lại khóa 3DES sẽ khiến tất cả mật khẩu hiện tại không thể xác thực! Bạn chắc chắn?')"><i class="fas fa-key"></i> Sinh lại khóa 3DES</button>
+      <div class="alert alert-warning mt-3"><i class="fas fa-exclamation-triangle"></i> <b>Cảnh báo:</b> Sinh lại khóa 3DES sẽ khiến tất cả mật khẩu hiện tại không thể xác thực. Chỉ sử dụng khi thực sự cần thiết!</div>
+    </form>
+    <div class="mt-4">
+      <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại bảng điều khiển</a>
+    </div>
+  </div>
+</body>
+</html> 
