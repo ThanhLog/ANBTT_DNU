@@ -1,0 +1,190 @@
+NỘI DUNG THỰC HIỆN DỰ ÁN "BẢO MẬT"
+
+---
+
+PHẦN 1: GIỚI THIỆU CHUNG VỀ HỆ THỐNG
+
+1.1. Bối cảnh và lý do chọn đề tài
+Trong thời đại công nghệ thông tin phát triển mạnh mẽ, dữ liệu số ngày càng trở nên quan trọng đối với cá nhân, tổ chức và doanh nghiệp. Tuy nhiên, đi kèm với sự phát triển đó là các nguy cơ về mất mát, rò rỉ, đánh cắp thông tin ngày càng gia tăng. Các vụ tấn công mạng, xâm nhập trái phép, đánh cắp dữ liệu cá nhân, doanh nghiệp diễn ra thường xuyên, gây thiệt hại lớn về kinh tế và uy tín. Do đó, vấn đề bảo mật thông tin trở thành một trong những ưu tiên hàng đầu trong lĩnh vực công nghệ thông tin hiện nay.
+
+1.2. Mục tiêu xây dựng hệ thống
+Xuất phát từ thực tiễn trên, hệ thống "Bảo Mật" được xây dựng nhằm cung cấp một giải pháp an toàn cho việc quản lý, mã hóa và bảo vệ dữ liệu cá nhân, đồng thời hỗ trợ quản trị viên trong việc giám sát, vận hành hệ thống một cách hiệu quả. Hệ thống hướng tới việc đảm bảo an toàn thông tin cho người dùng thông qua các chức năng mã hóa file, quản lý người dùng, thống kê, nhật ký hoạt động và thiết lập bảo mật.
+
+1.3. Đối tượng sử dụng hệ thống
+Hệ thống hướng tới hai nhóm đối tượng chính: người dùng cá nhân có nhu cầu bảo vệ dữ liệu và quản trị viên chịu trách nhiệm giám sát, vận hành hệ thống. Ngoài ra, hệ thống cũng có thể mở rộng cho các tổ chức, doanh nghiệp có nhu cầu bảo mật thông tin nội bộ.
+
+1.4. Tổng quan các chức năng chính
+Hệ thống cung cấp các chức năng: đăng ký, đăng nhập, quản lý người dùng; mã hóa/giải mã file bằng thuật toán RSA; quản lý nhật ký hoạt động; thống kê, báo cáo; quản lý thiết lập hệ thống. Các chức năng này được thiết kế thân thiện, dễ sử dụng, đảm bảo an toàn và hiệu quả.
+
+1.5. Ý nghĩa thực tiễn của hệ thống
+Việc xây dựng hệ thống "Bảo Mật" không chỉ giúp người dùng bảo vệ dữ liệu cá nhân mà còn góp phần nâng cao nhận thức về an toàn thông tin, thúc đẩy ứng dụng các giải pháp bảo mật hiện đại vào thực tiễn.
+
+---
+
+PHẦN 2: CÁC CHỨC NĂNG CHÍNH
+
+2.1. Đăng ký và đăng nhập người dùng
+- Cho phép người dùng tạo tài khoản mới với thông tin cơ bản (tên đăng nhập, mật khẩu).
+- Hệ thống kiểm tra thông tin hợp lệ, lưu trữ thông tin người dùng vào cơ sở dữ liệu.
+- Người dùng đăng nhập vào hệ thống để sử dụng các chức năng bảo mật.
+
+Quy trình thực hiện:
+1. Người dùng truy cập trang đăng ký, nhập thông tin cá nhân.
+2. Hệ thống kiểm tra tính hợp lệ, lưu vào cơ sở dữ liệu.
+3. Người dùng đăng nhập bằng tài khoản vừa tạo.
+4. Nếu thông tin hợp lệ, hệ thống chuyển hướng đến trang dashboard.
+
+Giao diện minh họa: (có thể chèn hình ảnh giao diện đăng ký, đăng nhập)
+
+Ý nghĩa: Đảm bảo chỉ người dùng hợp lệ mới được truy cập hệ thống, bảo vệ khỏi truy cập trái phép.
+
+2.2. Mã hóa và giải mã file bằng RSA
+- Người dùng có thể tải lên file để mã hóa hoặc giải mã.
+- Hệ thống sử dụng thuật toán RSA để thực hiện mã hóa/giải mã, đảm bảo file được bảo vệ an toàn.
+- File sau khi xử lý có thể tải về máy người dùng.
+
+Quy trình thực hiện:
+1. Người dùng đăng nhập, truy cập chức năng mã hóa/giải mã.
+2. Chọn file cần xử lý, chọn chế độ mã hóa hoặc giải mã.
+3. Hệ thống xử lý file bằng thuật toán RSA.
+4. Người dùng tải file kết quả về máy.
+
+Giao diện minh họa: (có thể chèn hình ảnh giao diện upload file, chọn chế độ)
+
+Ý nghĩa: Đảm bảo dữ liệu được bảo vệ an toàn, chỉ người có khóa hợp lệ mới giải mã được file.
+
+2.3. Quản lý người dùng (dành cho admin)
+- Quản trị viên có thể xem danh sách người dùng, thêm, sửa, xóa tài khoản.
+- Theo dõi hoạt động của từng người dùng, phát hiện các hành vi bất thường.
+
+Quy trình thực hiện:
+1. Quản trị viên đăng nhập vào hệ thống.
+2. Truy cập trang quản lý người dùng.
+3. Thực hiện các thao tác thêm, sửa, xóa tài khoản.
+4. Xem thông tin chi tiết, lịch sử hoạt động của từng người dùng.
+
+Giao diện minh họa: (có thể chèn hình ảnh danh sách người dùng, form chỉnh sửa)
+
+Ý nghĩa: Giúp quản trị viên kiểm soát hệ thống, phát hiện và xử lý kịp thời các sự cố bảo mật.
+
+2.4. Quản lý nhật ký hoạt động (Logs)
+- Ghi lại toàn bộ các thao tác quan trọng như đăng nhập, đăng xuất, thay đổi mật khẩu, mã hóa/giải mã file.
+- Quản trị viên có thể xem lịch sử hoạt động để kiểm tra và đảm bảo an toàn hệ thống.
+
+Quy trình thực hiện:
+1. Hệ thống tự động ghi lại các thao tác quan trọng.
+2. Quản trị viên truy cập trang nhật ký hoạt động.
+3. Xem, lọc, tìm kiếm các sự kiện theo thời gian, người dùng, loại thao tác.
+
+Giao diện minh họa: (có thể chèn hình ảnh bảng logs, bộ lọc tìm kiếm)
+
+Ý nghĩa: Giúp phát hiện các hành vi bất thường, truy vết sự cố khi cần thiết.
+
+2.5. Thống kê và báo cáo (Statistics)
+- Hiển thị các số liệu thống kê như số lượng người dùng, số file đã mã hóa/giải mã, tần suất sử dụng các chức năng.
+- Cung cấp biểu đồ, bảng số liệu giúp quản trị viên đánh giá hiệu quả hệ thống.
+
+Quy trình thực hiện:
+1. Hệ thống tự động tổng hợp số liệu hoạt động.
+2. Quản trị viên truy cập trang thống kê.
+3. Xem các biểu đồ, bảng số liệu theo thời gian, chức năng.
+
+Giao diện minh họa: (có thể chèn hình ảnh biểu đồ, bảng thống kê)
+
+Ý nghĩa: Hỗ trợ quản trị viên đánh giá hiệu quả, phát hiện xu hướng sử dụng hệ thống.
+
+2.6. Quản lý thiết lập hệ thống (Settings)
+- Cho phép người dùng thay đổi mật khẩu, cập nhật thông tin cá nhân.
+- Quản trị viên có thể thay đổi các thiết lập bảo mật, cấu hình hệ thống.
+
+Quy trình thực hiện:
+1. Người dùng truy cập trang thiết lập cá nhân.
+2. Thay đổi mật khẩu, cập nhật thông tin.
+3. Quản trị viên truy cập thiết lập hệ thống, thay đổi các cấu hình bảo mật.
+
+Giao diện minh họa: (có thể chèn hình ảnh form đổi mật khẩu, thiết lập hệ thống)
+
+Ý nghĩa: Đảm bảo hệ thống luôn được cập nhật, phù hợp với nhu cầu sử dụng và yêu cầu bảo mật.
+
+---
+
+PHẦN 3: LUỒNG HOẠT ĐỘNG CỦA HỆ THỐNG
+
+3.1. Sơ đồ tổng quan luồng hoạt động
+- Người dùng truy cập hệ thống → Đăng ký/Đăng nhập tài khoản.
+- Sau khi đăng nhập, người dùng có thể mã hóa/giải mã file, xem lịch sử hoạt động, thay đổi mật khẩu.
+- Quản trị viên có thể quản lý người dùng, xem nhật ký hoạt động, thống kê, thay đổi thiết lập hệ thống.
+
+3.2. Mô tả chi tiết từng bước
+- Đăng ký: Người dùng nhập thông tin, hệ thống kiểm tra và lưu trữ.
+- Đăng nhập: Kiểm tra thông tin, xác thực thành công thì truy cập dashboard.
+- Mã hóa/giải mã: Người dùng chọn file, hệ thống xử lý và trả về kết quả.
+- Quản lý người dùng: Admin thực hiện các thao tác thêm, sửa, xóa, xem lịch sử.
+- Nhật ký hoạt động: Hệ thống tự động ghi lại, admin xem và lọc theo nhu cầu.
+- Thống kê: Hệ thống tổng hợp số liệu, hiển thị biểu đồ, bảng số liệu.
+- Thiết lập hệ thống: Người dùng/Quản trị viên thay đổi thông tin, cấu hình bảo mật.
+
+3.3. Phân tích vai trò từng đối tượng
+- Người dùng: Sử dụng các chức năng bảo mật, bảo vệ dữ liệu cá nhân.
+- Quản trị viên: Quản lý hệ thống, giám sát hoạt động, đảm bảo an toàn thông tin.
+
+3.4. Các trường hợp sử dụng điển hình
+- Người dùng quên mật khẩu: Sử dụng chức năng lấy lại mật khẩu.
+- Phát hiện truy cập bất thường: Admin kiểm tra logs, xử lý sự cố.
+
+3.5. Mô tả các tình huống đặc biệt
+- Hệ thống phát hiện nhiều lần đăng nhập thất bại liên tiếp, cảnh báo admin.
+- Người dùng thay đổi mật khẩu, hệ thống ghi nhận vào logs.
+
+---
+
+PHẦN 4: Ý NGHĨA VÀ LỢI ÍCH
+
+4.1. Ý nghĩa về mặt bảo mật thông tin
+Hệ thống "Bảo Mật" góp phần nâng cao ý thức bảo vệ dữ liệu cá nhân, giúp người dùng chủ động hơn trong việc bảo vệ thông tin quan trọng. Việc áp dụng thuật toán mã hóa RSA giúp đảm bảo dữ liệu chỉ có thể được truy cập bởi người có quyền hợp lệ.
+
+4.2. Lợi ích đối với người dùng cá nhân
+- Bảo vệ file cá nhân khỏi nguy cơ bị đánh cắp, rò rỉ.
+- Dễ dàng quản lý, mã hóa, giải mã file mọi lúc, mọi nơi.
+- Giao diện thân thiện, dễ sử dụng.
+
+4.3. Lợi ích đối với tổ chức/doanh nghiệp
+- Đảm bảo an toàn thông tin nội bộ.
+- Hỗ trợ quản trị viên giám sát, phát hiện và xử lý sự cố kịp thời.
+- Tăng uy tín, niềm tin với khách hàng, đối tác.
+
+4.4. Đóng góp về mặt công nghệ, học thuật
+- Ứng dụng thực tiễn của thuật toán RSA trong bảo mật dữ liệu.
+- Xây dựng hệ thống quản lý, giám sát bảo mật toàn diện.
+
+4.5. Đề xuất phát triển mở rộng
+- Tích hợp thêm các thuật toán mã hóa khác.
+- Phát triển ứng dụng trên nền tảng di động.
+- Mở rộng chức năng cảnh báo, phát hiện xâm nhập tự động.
+
+---
+
+PHẦN 5: KẾT LUẬN
+
+5.1. Tổng kết kết quả đạt được
+Hệ thống "Bảo Mật" đã hoàn thành các chức năng chính: đăng ký, đăng nhập, quản lý người dùng, mã hóa/giải mã file, quản lý nhật ký hoạt động, thống kê, thiết lập hệ thống. Hệ thống đáp ứng tốt nhu cầu bảo vệ dữ liệu cá nhân và hỗ trợ quản trị viên giám sát, vận hành hiệu quả.
+
+5.2. Đánh giá hiệu quả hệ thống
+Hệ thống hoạt động ổn định, giao diện thân thiện, dễ sử dụng. Các chức năng bảo mật được triển khai hiệu quả, đảm bảo an toàn thông tin cho người dùng.
+
+5.3. Khó khăn, hạn chế
+- Chưa tích hợp nhiều thuật toán mã hóa khác nhau.
+- Chưa có chức năng cảnh báo tự động khi phát hiện truy cập bất thường.
+- Giao diện còn đơn giản, cần nâng cấp để thân thiện hơn.
+
+5.4. Định hướng phát triển
+- Nâng cấp giao diện, bổ sung chức năng cảnh báo tự động.
+- Tích hợp thêm các thuật toán mã hóa hiện đại.
+- Phát triển ứng dụng trên nền tảng di động.
+
+5.5. Lời cảm ơn
+Xin chân thành cảm ơn thầy cô, bạn bè đã hỗ trợ, góp ý trong quá trình thực hiện đề tài. Cảm ơn các thành viên trong nhóm đã nỗ lực hoàn thành dự án đúng tiến độ.
+
+---
+
+(Tài liệu này có thể bổ sung hình ảnh, sơ đồ, bảng biểu minh họa để tăng tính trực quan và sinh động cho báo cáo.) 
